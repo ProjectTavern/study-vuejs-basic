@@ -1,0 +1,35 @@
+<html lang="kr">
+<head>
+    <title>Hello Vue</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h1>Enter 2 numbers to calculate their sum.</h1>
+    <form class="form-inline">
+        <input v-model.number="a" class="form-control">
+        +
+        <input v-model.number="b" class="form-control">
+    </form>
+    <h2>Result: {{ a }} + {{ b }} = {{ c }}</h2>
+    <pre>
+        {{ $data }}
+    </pre>
+</div>
+</body>
+<script src="//cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.js"></script>
+<script type="text/javascript">
+    new Vue({
+        el: '.container',
+        data: {
+            a: 1,
+            b: 2,
+        },
+        computed: {
+            c: function() {
+                return this.a + this.b;
+            }
+        }
+    });
+</script>
+</html>

@@ -1,0 +1,56 @@
+<html lang="kr">
+<head>
+    <title>Hello Vue</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h1>Type 2 numbers and choose operation.</h1>
+    <form class="form-inline">
+        <input v-model.numer="a" class="form-control">
+        <select v-model="operator" class="form-control">
+            <option>+</option>
+            <option>-</option>
+            <option>*</option>
+            <option>/</option>
+        </select>
+        <input v-model.number="b" class="form-control">
+        <button type="submit" @click.prevent="calculate" class="btn btn-primary">Calculate</button>
+    </form>
+    <h2>Result: {{ a }} {{ operator }} {{ b }} = {{ c }}</h2>
+</div>
+<pre>
+    {{ $data }}
+</pre>
+</body>
+<script src="//cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.js"></script>
+<script type="text/javascript">
+    new Vue({
+        el: '.container',
+        data: {
+            a: 1,
+            b: 2,
+            c: null,
+            operator: "+"
+        },
+        methods: {
+            calculate: function(event) {
+                switch (this.operator) {
+                    case "+":
+                        this.c = this.a + this.b;
+                        break;
+                    case "-":
+                        this.c = this.a - this.b;
+                        break;
+                    case "*":
+                        this.c = this.a * this.b;
+                        break;
+                    case "/":
+                        this.c = this.a / this.b;
+                        break;
+                }
+            }
+        }
+    });
+</script>
+</html>
