@@ -1,0 +1,44 @@
+<html lang="kr">
+<head>
+    <title>Hello Vue</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h1>Real identities of Super Heroes!</h1>
+    <ul>
+        <li v-for="hero in heroes" class="list-group-item">
+            {{ hero | snitch }}
+        </li>
+    </ul>
+    <pre>
+        {{ $data }}
+    </pre>
+</div>
+</body>
+<script src="//cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.js"></script>
+<script type="text/javascript">
+    Vue.filter('snitch', function (hero) {
+       return hero.secretId + ' is ' + hero.firstname + ' ' + hero.lastname + ' in real life.'
+    });
+    new Vue({
+        el: '.container',
+        data: {
+            heroes: [
+                { firstname: 'Bruce', lastname: 'Wayne', secretId: 'Batman' },
+                { firstname: 'Clark', lastname: 'Kent', secretId: 'Superman' },
+                { firstname: 'Jay', lastname: 'Garrick', secretId: 'Flash' },
+                { firstname: 'Peter', lastname: 'Parker', secretId: 'Spider-Man' }
+            ]
+        },
+        computed: {
+            orderedStories: function() {
+                var order = this.order;
+                return this.stories.sort(function (a, b) {
+                    return (a.upvotes - b.upvotes) * order;
+                })
+            }
+        }
+    });
+</script>
+</html>
