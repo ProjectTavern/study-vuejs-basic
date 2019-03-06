@@ -27,6 +27,18 @@
             </li>
         </ul>
     </div>
+    <div class="form-group">
+        <label for="query">
+            What are you looking for?
+        </label>
+        <input v-model="query" class="form-control">
+    </div>
+    <h3>Search results:</h3>
+    <ul class="list-group">
+        <li v-for="story in search" class="list-group-item">
+            {{ story.writer }} said "{{ story.plot }}"
+        </li>
+    </ul>
     <pre>
         {{ $data }}
     </pre>
@@ -58,7 +70,8 @@
                     writer: "Alex",
                     upvotes: 74
                 },
-            ]
+            ],
+            query: ''
         },
         methods: {
             storiesBy: function(writer) {
@@ -71,6 +84,12 @@
             famous: function() {
                 return this.stories.filter(function(item) {
                     return item.upvotes > 25;
+                })
+            },
+            search: function() {
+                var query = this.query;
+                return this.stories.filter(function (story) {
+                    return story.plot.indexOf(query) > -1;
                 })
             }
         }
