@@ -1,0 +1,35 @@
+<html lang="kr">
+<head>
+    <title>Hello Vue</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div id="app">
+    <div class="container text-center">
+        <p style="font-size: 140px;">
+            {{ votes }}
+        </p>
+        <button class="btn btn-primary" @click="vote">Vote</button>
+    </div>
+</div>
+</body>
+<script src="//cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.js"></script>
+<script type="text/javascript">
+    new Vue({
+        el: '.container',
+        data: {
+            votes: 0,
+        },
+        methods: {
+            vote: function(writer) {
+                this.$emit('voted');
+            },
+        },
+        created: function() {
+            this.$on('voted', function(button) {
+                this.votes++;
+            })
+        }
+    })
+</script>
+</html>
