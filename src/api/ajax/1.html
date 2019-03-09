@@ -1,0 +1,83 @@
+<html lang="kr">
+<head>
+  <title>Hello Vue</title>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+</head>
+<body>
+<div id="app">
+  <div class="container">
+    <h1>Let's hear some stories!</h1>
+    <table class="table tabl-striped">
+      <tr>
+        <th>#</th>
+        <th>Plot</th>
+        <th>Writer</th>
+        <th>Upvotes</th>
+        <th>Actions</th>
+      </tr>
+      <tr v-for="story in stories" is="story" :story="story"></tr>
+    </table>
+    <pre>{{ $data }}</pre>
+  </div>
+</div>
+<template id="template-story-raw">
+  <tr>
+    <td>{{ story.id }}</td>
+    <td>
+      <span>{{ story.plot }}</span>
+    </td>
+    <td>
+      {{ story.writer }}
+    </td>
+    <td>
+      {{ story.upvotes }}
+    </td>
+    <td>
+      <div class="btn-group">
+        <button @click="upvoteStory(story)" class="btn btn-primary">Upvote</button>
+        <button @click="deleteStory(story)" class="btn btn-danger">Delete</button>
+      </div>
+    </td>
+  </tr>
+</template>
+<p class="lead">Here's a list of all your stories</p>
+</body>
+<script src="//cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.js"></script>
+<script src="//cdnjs.com/libraries/vue-resource"></script>
+<script type="text/javascript">
+  const url = 'http://localhost:3000/api/';
+  Vue.component('story', {
+    template: '#template-story-raw',
+    props: ['story'],
+    methods: {
+      upvoteStory: function(story) {
+        story.upvotes++;
+        $.ajax({
+          url: url + 'stories/' + story.id,
+          type: 'PATCH',
+          data: story,
+        })
+      },
+      deleteStory: function(story) {
+        vm.stories.splice(vm.stories.indexOf(story), 1);
+        $.ajax({
+          url: url + 'stories/' + story.id,
+          type: 'DELETE'
+        })
+      }
+    },
+  });
+  var vm = new Vue({
+    el: '#app',
+    data: {
+      stories: [],
+    },
+    mounted: function() {
+      $.get(url + 'stories/', function(response) {
+        vm.stories = response;
+      })
+    },
+  })
+</script>
+</html>
