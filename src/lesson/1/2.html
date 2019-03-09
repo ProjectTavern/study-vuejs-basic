@@ -8,7 +8,7 @@
   <div class="container">
     <h1>Let's hear some stories!</h1>
     <ul class="list-group">
-      <story v-for="story in stories" :story="story" :favorite="favorite"></story>
+      <story v-for="story in stories" :story="story" :favorite="favorite" @update="updateFavorite"></story>
     </ul>
     <pre>{{ $data }}</pre>
   </div>
@@ -19,7 +19,7 @@
     <br>
     Story upvotes {{ story.upvotes }}.
     <button v-show="!story.voted" @click="upvote" class="btn btn-default">Upvote</button>
-    <button v-show="!isFavorite" @click="setFavorite" class="btn btn-primary">Favorite</button>
+    <button v-show="!isFavorite" @click="updateFavorite" class="btn btn-primary">Favorite</button>
     <span v-show="isFavorite" class="glyphicon glyphicon-star pull-right" aria-hidden="true"></span>
   </li>
 </template>
@@ -36,6 +36,9 @@
       },
       setFavorite: function () {
         this.favorite = this.story;
+      },
+      updateFavorite: function() {
+        this.$emit('update', this.story);
       }
     },
     computed: {
@@ -80,6 +83,11 @@
         }
       ],
       favorite: {},
+    },
+    methods: {
+      updateFavorite: function(story) {
+        this.favorite = story;
+      }
     }
   })
 </script>

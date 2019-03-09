@@ -1,0 +1,28 @@
+<html lang="kr" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Hello Vue</title>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div id="app">
+  <div class="container text-center">
+    <div :style="[niceStyle, badStyle]">Such nice textures my Lord.</div>
+  </div>
+</div>
+</body>
+<script src="//cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.js"></script>
+<script type="text/javascript">
+  new Vue({
+    el: '.container',
+    data: {
+      niceStyle: {
+        color: 'blue',
+        fontSize: '20px'
+      },
+      badStyle: {
+        fontStyle: 'italic'
+      }
+    }
+  })
+</script>
+</html>
