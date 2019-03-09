@@ -7,14 +7,21 @@
 <div id="app">
   <div class="container text-center">
     <p style="font-size: 140px;">
-      {{ votes }}
+      {{ votes.count }}
     </p>
-    <food @voted="countVote" name="Cheeseburger"></food>
-    <food @voted="countVote" name="Double Bacon Burger"></food>
-    <food @voted="countVote" name="Rodeo Burger"></food>
+    <button class="btn btn-danger" @click="reset">Reset votes</button>
+    <hr>
+
+    <div class="row">
+      <food @voted="countVote" name="Cheeseburger"></food>
+      <food @voted="countVote" name="Double Bacon Burger"></food>
+      <food @voted="countVote" name="Rodeo Burger"></food>
+    </div>
+    <hr>
+
     <h1>Log</h1>
     <ul class="list-group">
-      <li class="list-group-item" v-for="vote in log">{{ vote }}</li>
+      <li class="list-group-item" v-for="log in votes.log">{{ log }}</li>
     </ul>
   </div>
 </div>
@@ -29,6 +36,8 @@
 </body>
 <script src="//cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.js"></script>
 <script type="text/javascript">
+  var bus = new Vue();
+
   Vue.component('food', {
     template: '#food',
     props: ['name'],
@@ -39,10 +48,15 @@
     },
     methods: {
       vote: function(event) {
-        console.log('child', event);
         this.votes++;
         this.$emit('voted', event);
+      },
+      reset: function() {
+        this.votes = 0;
       }
+    },
+    created: function() {
+      bus.$on('reset', this.reset);
     }
   });
 
@@ -50,15 +64,26 @@
   new Vue({
     el: '.container',
     data: {
-      votes: 0,
-      log: [],
+      votes: {
+        count: 0,
+        log: [],
+      },
     },
     methods: {
       countVote: function(event) {
-        console.log('parent', event);
-        this.log.push(event.srcElement.textContent);
-        this.votes++;
-      }
+        this.votes.count++;
+        this.votes.log.push(event.srcElement.textContent + ' received a vote.');
+      },
+      reset: function() {
+        this.votes = {
+          count: 0,
+          log: [],
+        };
+        bus.$emit('reset');
+      },
+    },
+    created: function() {
+      bus.$on('voted', this.countVote);
     }
   })
 </script>
