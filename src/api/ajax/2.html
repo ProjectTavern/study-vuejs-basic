@@ -80,9 +80,9 @@
       storeStory: function(story) {
         axios
           .post(url, story)
-          .then(function() {
+          .then(function(response) {
+            Vue.set(story, 'id', response.data.id);
             story.editing = false;
-            vm.fetchStories();
           })
       }
     },
